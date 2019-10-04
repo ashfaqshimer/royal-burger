@@ -3,28 +3,35 @@ import uuid from 'uuid/v4';
 
 import './Burger.scss';
 import BurgerIngredient from '../BurgerIngredient/BurgerIngredient';
+import INGREDIENTS from '../../redux/burger/burgerIngredients';
 import { connect } from 'react-redux';
-import Ingredients from '../../redux/burger/burgerIngredients';
 
-const Burger = ({ ingredients }) => {
-	console.log(Ingredients);
+const Burger = ({ burgerComp }) => {
+	const burger = burgerComp.map((ingredient) => {
+		return INGREDIENTS[ingredient];
+	});
+	console.log(burger);
 	return (
 		<div className='Burger'>
 			<BurgerIngredient type='breadTop' styleName='BreadTop' />
-			{ingredients.map(({ type, styleName }) => (
-				<BurgerIngredient
-					key={uuid()}
-					type={type}
-					styleName={styleName}
-				/>
-			))}
+			{burger.length ? (
+				burger.map(({ type, styleName }) => (
+					<BurgerIngredient
+						key={uuid()}
+						type={type}
+						styleName={styleName}
+					/>
+				))
+			) : (
+				<p className='empty-message'>Your burger has no ingredients!</p>
+			)}
 			<BurgerIngredient type='breadTop' styleName='BreadBottom' />
 		</div>
 	);
 };
 
 const mapStateToProps = (state) => ({
-	ingredients: state.burger.ingredients
+	burgerComp: state.burger.burgerComp
 });
 
 export default connect(mapStateToProps)(Burger);

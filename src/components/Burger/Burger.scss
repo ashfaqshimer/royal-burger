@@ -1,9 +1,13 @@
 .Burger {
-	height: 50vh;
+	height: 15rem;
 	width: 35vw;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	margin: auto;
+	.empty-message {
+		font-weight: bold;
+		margin: 0.5rem auto;
+	}
 }

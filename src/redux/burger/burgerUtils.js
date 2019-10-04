@@ -21,7 +21,7 @@ export const removeIngredient = (ingredients, ingredientToRemove) => {
 		(ingredient) => ingredient.type === ingredientToRemove
 	);
 
-	if (existingIngredient.qty === 1) {
+	if (existingIngredient && existingIngredient.qty === 1) {
 		return ingredients.filter(
 			(ingredient) => ingredient.type !== ingredientToRemove
 		);
@@ -32,4 +32,30 @@ export const removeIngredient = (ingredients, ingredientToRemove) => {
 			? { ...ingredient, qty: ingredient.qty - 1 }
 			: ingredient
 	);
+};
+
+export const addToComp = (burgerComp, ingredientToAdd) => {
+	return [...burgerComp, ingredientToAdd];
+};
+
+export const removeFromComp = (burgerComp, ingredientToRemove) => {
+	const index = burgerComp.indexOf(ingredientToRemove);
+
+	if (index !== -1) {
+		const newComp = [...burgerComp];
+		newComp.splice(index, 1);
+		return newComp;
+	}
+
+	return burgerComp;
+};
+
+export const calculateTotal = (currentTotal, operator, ingredientToAdd) => {
+	if (operator === 'add') {
+		return currentTotal + INGREDIENTS[ingredientToAdd].price;
+	}
+
+	if (operator === 'remove') {
+		return currentTotal - INGREDIENTS[ingredientToAdd].price;
+	}
 };

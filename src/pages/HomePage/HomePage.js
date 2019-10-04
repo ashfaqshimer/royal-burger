@@ -5,28 +5,25 @@ import './HomePage.scss';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
 
-const HomePage = ({ ingredients }) => {
-	const price = ingredients.reduce((acc, curr) => {
-		return (acc += curr.price);
-	}, 0);
-
+const HomePage = ({ ingredients, totalPrice }) => {
 	return (
 		<div className='HomePage'>
-			This is the main page
 			<Burger />
 			<p>
-				Your total price is :{' '}
+				Your total price is :
 				<span>
-					Rs. <strong>{price}</strong>
+					<strong>Rs. {totalPrice}</strong>
 				</span>
 			</p>
+			<hr></hr>
 			<BuildControls />
 		</div>
 	);
 };
 
 const mapStateToProps = (state) => ({
-	ingredients: state.burger.ingredients
+	ingredients: state.burger.ingredients,
+	totalPrice: state.burger.totalPrice
 });
 
 export default connect(mapStateToProps)(HomePage);
