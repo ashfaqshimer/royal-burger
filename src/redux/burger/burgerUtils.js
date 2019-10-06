@@ -1,6 +1,4 @@
-import INGREDIENTS from './burgerIngredients';
-
-export const addIngredient = (ingredients, ingredientToAdd) => {
+export const addIngredient = (allIngredients, ingredients, ingredientToAdd) => {
 	const exisitingIngredient = ingredients.find(
 		(ingredient) => ingredient.type === ingredientToAdd
 	);
@@ -13,7 +11,7 @@ export const addIngredient = (ingredients, ingredientToAdd) => {
 		);
 	}
 
-	return [...ingredients, { ...INGREDIENTS[ingredientToAdd], qty: 1 }];
+	return [...ingredients, { ...allIngredients[ingredientToAdd], qty: 1 }];
 };
 
 export const removeIngredient = (ingredients, ingredientToRemove) => {
@@ -50,12 +48,17 @@ export const removeFromComp = (burgerComp, ingredientToRemove) => {
 	return burgerComp;
 };
 
-export const calculateTotal = (currentTotal, operator, ingredientToAdd) => {
+export const calculateTotal = (
+	allIngredients,
+	currentTotal,
+	operator,
+	ingredientToAdd
+) => {
 	if (operator === 'add') {
-		return currentTotal + INGREDIENTS[ingredientToAdd].price;
+		return currentTotal + allIngredients[ingredientToAdd].price;
 	}
 
 	if (operator === 'remove') {
-		return currentTotal - INGREDIENTS[ingredientToAdd].price;
+		return currentTotal - allIngredients[ingredientToAdd].price;
 	}
 };

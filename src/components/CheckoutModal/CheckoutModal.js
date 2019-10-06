@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import uuid from 'uuid/v4';
 
 import './CheckoutModal.scss';
 import Modal from 'react-bootstrap/Modal';
@@ -15,9 +16,9 @@ const CheckoutModal = ({ show, handleClose, ingredients, totalPrice }) => {
 			</Modal.Header>
 			<Modal.Body>
 				<h4>Price Breakdown:</h4>
-				<ul class='list-group list-group-flush'>
+				<ul className='list-group list-group-flush'>
 					{ingredients.map((ingredient) => (
-						<li class='list-group-item'>
+						<li key={uuid()} className='list-group-item'>
 							{ingredient.label}
 							<span className='quantity'>x{ingredient.qty}</span>
 						</li>

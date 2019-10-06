@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Button from 'react-bootstrap/Button';
@@ -6,13 +6,22 @@ import './HomePage.scss';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
 import CheckoutModal from '../../components/CheckoutModal/CheckoutModal';
+import { fetchIngredientsStartAsync } from '../../redux/burger/burgerActions';
+import Spinner from '../../components/Spinner/Spinner';
 
-const HomePage = ({ totalPrice }) => {
+const HomePage = ({ totalPrice, fetchIngredients, isFetching }) => {
 	const [show, setShow] = useState(false);
+
+	useEffect(() => {
+		fetchIngredients();
+	}, [fetchIngredients]);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	return (
+
+	return isFetching ? (
+		<Spinner />
+	) : (
 		<div className='HomePage'>
 			<Burger />
 			<p>
@@ -33,7 +42,6 @@ const HomePage = ({ totalPrice }) => {
 					size='lg'
 					disabled={totalPrice === 0}
 					onClick={handleShow}
-					handleClose={handleClose}
 				>
 					Checkout
 				</Button>
@@ -45,7 +53,15 @@ const HomePage = ({ totalPrice }) => {
 
 const mapStateToProps = (state) => ({
 	ingredients: state.burger.ingredients,
-	totalPrice: state.burger.totalPrice
+	totalPrice: state.burger.totalPrice,
+	isFetching: state.burger.isFetching
 });
 
-export default connect(mapStateToProps)(HomePage);
+const mapDispatchToProps = (dispatch) => ({
+	fetchIngredients: () => dispatch(fetchIngredientsStartAsync())
+});
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(HomePage);

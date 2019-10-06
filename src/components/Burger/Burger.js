@@ -1,16 +1,15 @@
 import React from 'react';
 import uuid from 'uuid/v4';
+import { connect } from 'react-redux';
 
 import './Burger.scss';
 import BurgerIngredient from '../BurgerIngredient/BurgerIngredient';
-import INGREDIENTS from '../../redux/burger/burgerIngredients';
-import { connect } from 'react-redux';
 
-const Burger = ({ burgerComp }) => {
+const Burger = ({ burgerComp, allIngredients }) => {
 	const burger = burgerComp.map((ingredient) => {
-		return INGREDIENTS[ingredient];
+		return allIngredients[ingredient];
 	});
-	console.log(burger);
+
 	return (
 		<div className='Burger'>
 			<BurgerIngredient type='breadTop' styleName='BreadTop' />
@@ -31,7 +30,8 @@ const Burger = ({ burgerComp }) => {
 };
 
 const mapStateToProps = (state) => ({
-	burgerComp: state.burger.burgerComp
+	burgerComp: state.burger.burgerComp,
+	allIngredients: state.burger.allIngredients
 });
 
 export default connect(mapStateToProps)(Burger);
